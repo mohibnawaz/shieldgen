@@ -51,7 +51,7 @@ const Signup = () => {
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:3000/api/auth/signup", {
+      const response = await fetch("https://5614-backend-pearl.vercel.app/api/auth/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

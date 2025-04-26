@@ -1,41 +1,34 @@
 import { createContext, useContext, useState, useEffect } from "react";
 
-const UserContext = createContext();
+const defaultUser = {
+  username: "",
+  email: "",
+  age: "",
+  gender: "",
+};
+
+const UserContext = createContext({
+  user: defaultUser,
+  setUser: () => {},
+});
 
 export const UserProvider = ({ children }) => {
-  const [user, setUser] = useState(() => {
+  const [user, setUser] = useState(defaultUser);
+
+  useEffect(() => {
     if (typeof window !== "undefined") {
       const storedUserData = localStorage.getItem("userData");
       if (storedUserData) {
         try {
-          return JSON.parse(storedUserData);
+          setUser(JSON.parse(storedUserData));
         } catch (error) {
           console.error("Error parsing userData from localStorage", error);
-          return {
-            userName: "",
-            email: "",
-            age: "",
-            gender: "",
-          };
+          setUser(defaultUser); // set default user if error happens
         }
-      } else {
-        return {
-          userName: "",
-          email: "",
-          age: "",
-          gender: "",
-        };
       }
-    } else {
-      return {
-        userName: "",
-        email: "",
-        age: "",
-        gender: "",
-      };
     }
-  });
-  
+  }, []);
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       try {
@@ -44,7 +37,6 @@ export const UserProvider = ({ children }) => {
         console.error("Error saving userData to localStorage", error);
       }
     }
-    console.log(user);
   }, [user]);
 
   return (

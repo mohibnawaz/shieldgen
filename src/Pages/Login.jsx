@@ -12,9 +12,7 @@ const Login = () => {
     email: "",
     password: "",
   });
-  useEffect(() => {
-    setUser(null);
-  }, []);
+  
 
   const [error, setError] = useState("");
   const handlePasswordShow = () => {
